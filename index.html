@@ -3,64 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moonz Hub Gen2</title>
+    <title>Script Portal</title>
     <style>
         body {
-            background-color: black;
-            color: #00ffcc; /* Neon color */
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .welcome-container {
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-bottom: 1px solid #333;
+            width: 100%;
             text-align: center;
         }
+
         .welcome {
-            font-size: 14px; /* Smaller text */
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ff00, #0099ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            letter-spacing: 2px;
+            margin: 10px 0;
         }
-        .box {
-            border: 2px solid #00ffcc;
-            padding: 10px;
-            margin: 20px auto;
-            width: 80%;
-            background-color: rgba(0, 0, 0, 0.5);
-            max-height: 150px; /* Set a maximum height */
-            overflow-y: auto; /* Enable vertical scrolling */
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+            z-index: 1;
         }
-        button {
-            background-color: #00ffcc;
-            color: black;
-            border: none;
-            padding: 10px 20px;
+
+        .buttons-container {
+            display: flex;
+            gap: 30px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .script-btn {
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 15px 40px;
+            border: 2px solid #00ff00;
+            border-radius: 50px;
+            color: #00ff00;
+            background: transparent;
             cursor: pointer;
-            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
-        button:hover {
-            background-color: #00cc99;
+
+        .script-btn:hover {
+            background: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .premium-btn {
+            border-color: #ff9900;
+            color: #ff9900;
+        }
+
+        .premium-btn:hover {
+            background: rgba(255, 153, 0, 0.1);
+            box-shadow: 0 0 15px rgba(255, 153, 0, 0.5);
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+                text-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+            }
+            to {
+                transform: scale(1.05);
+                text-shadow: 0 0 30px rgba(0, 255, 255, 1);
+            }
+        }
+
+        .glowing-circle {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, transparent 70%);
+            filter: blur(40px);
+            animation: moveCircle 15s infinite alternate;
+            opacity: 0.7;
+        }
+
+        @keyframes moveCircle {
+            0% {
+                transform: translate(-100px, -100px);
+            }
+            25% {
+                transform: translate(200px, -50px);
+            }
+            50% {
+                transform: translate(0px, 150px);
+            }
+            75% {
+                transform: translate(-150px, 50px);
+            }
+            100% {
+                transform: translate(100px, -100px);
+            }
+        }
+
+        .footer {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-top: 1px solid #333;
+            width: 100%;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-
-    <h1>Moonz Hub Gen2</h1>
-
-    <p class="welcome">Welcome</p>
-
-    <div class="box">
-        <p>loadstring(game:HttpGet("https://raw.githubusercontent.com/akbarhub/universalscripts/refs/heads/main/MoonzLoaderOfficial"))();</p>
-        <button onclick="copyToClipboard('loadstring(game:HttpGet(\"https://raw.githubusercontent.com/akbarhub/universalscripts/refs/heads/main/MoonzLoaderOfficial\"))();')">Copy Script</button>
+    <div class="welcome-container">
+        <div class="welcome">Welcome</div>
     </div>
 
-    <div class="box">
-        <p>Premium Only</p>
-        <button onclick="copyToClipboard('https://discord.gg/QBNwkvpjAG')">Get Premium Script</button>
+    <div class="main-content">
+        <div class="glowing-circle"></div>
+        <div class="glowing-circle" style="animation-delay: -5s;"></div>
+        <div class="glowing-circle" style="animation-delay: -10s;"></div>
+        
+        <div class="buttons-container">
+            <button class="script-btn copy-btn" onclick="copyFreeScript()">COPY FREE SCRIPT</button>
+            <button class="script-btn premium-btn" onclick="copyPremiumScript()">GET PREMIUM SCRIPT</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2024 Script Portal
     </div>
 
     <script>
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(function() {
-                alert('Copied to clipboard!');
-            }, function(err) {
-                console.error('Could not copy text: ', err);
-            });
+        function copyFreeScript() {
+            const script = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/akbarhub/universalscripts/refs/heads/main/MoonzLoaderOfficial"))();';
+            navigator.clipboard.writeText(script)
+                .then(() => alert('Free script copied to clipboard!'))
+                .catch(err => console.error('Failed to copy:', err));
         }
-    </script>
 
+        function copyPremiumScript() {
+            const link = 'https://discord.gg/QBNwkvpjAG';
+            navigator.clipboard.writeText(link)
+                .then(() => alert('Premium script link copied to clipboard!'))
+                .catch(err => console.error('Failed to copy:', err));
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const colors = ['#00ff00', '#0099ff', '#ff00ff', '#ff9900'];
+            const elements = document.querySelectorAll('.get-script-btn, .welcome');
+            
+            function changeColor() {
+                const color1 = colors[Math.floor(Math.random() * colors.length)];
+                let color2 = colors[Math.floor(Math.random() * colors.length)];
+                while(color2 === color1) {
+                    color2 = colors[Math.floor(Math.random() * colors.length)];
+                }
+                
+                elements.forEach(el => {
+                    el.style.background = `linear-gradient(45deg, ${color1}, ${color2})`;
+                    el.style.webkitBackgroundClip = 'text';
+                    el.style.backgroundClip = 'text';
+                    el.style.textShadow = `0 0 ${el.classList.contains('script-text') ? '20px' : '10px'} ${color1}80`;
+                });
+            }
+            
+            setInterval(changeColor, 3000);
+        });
+    </script>
 </body>
 </html>
