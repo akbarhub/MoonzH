@@ -3,135 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moonz Hub</title>
+    <title>Moonz Hub Gen2</title>
     <style>
         body {
-            background-color: #000; /* Warna latar belakang hitam */
-            color: #fff; /* Warna teks putih */
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: grid;
-            grid-template-rows: auto 1fr auto;
-            height: 100vh;
-            align-items: center;
-            justify-items: center;
-            transition: background-color 0.5s; /* Transisi untuk perubahan tema */
-            position: relative; /* Untuk efek neon */
+            background-color: black;
+            color: #00ffcc; /* Neon color */
+            font-family: Arial, sans-serif;
+            text-align: center;
         }
-        .neon {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle, rgba(0, 255, 255, 0.1), rgba(0, 0, 0, 0.8));
-            filter: blur(15px);
-            z-index: -1; /* Menempatkan efek di belakang konten */
+        .welcome {
+            font-size: 14px; /* Smaller text */
         }
-        h1 {
-            font-size: 3.5em;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #FF5733, #007BFF); /* Warna gradien untuk teks */
-            -webkit-background-clip: text; /* Memotong latar belakang untuk teks */
-            -webkit-text-fill-color: transparent; /* Mengisi warna teks dengan transparan */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-            animation: fadeIn 1s; /* Animasi muncul */
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .info-box {
-            background-color: rgba(255, 255, 255, 0.1); /* Latar belakang kotak */
-            border-radius: 10px; /* Sudut melengkung */
-            padding: 20px; /* Jarak dalam kotak */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Bayangan kotak */
-            text-align: center; /* Teks di tengah */
-            margin: 20px 0; /* Jarak atas dan bawah kotak */
-        }
-        .info-box h2 {
-            margin: 10px 0; /* Jarak atas dan bawah untuk judul dalam kotak */
-            color: #fff; /* Warna teks judul dalam kotak */
-        }
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px; /* Jarak antar tombol */
+        .box {
+            border: 2px solid #00ffcc;
+            padding: 10px;
+            margin: 20px auto;
+            width: 80%;
+            background-color: rgba(0, 0, 0, 0.5);
+            max-height: 150px; /* Set a maximum height */
+            overflow-y: auto; /* Enable vertical scrolling */
         }
         button {
-            padding: 15px 30px;
-            font-size: 16px;
-            cursor: pointer;
+            background-color: #00ffcc;
+            color: black;
             border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.2s;
-            background: linear-gradient(45deg, #FF5733, #007BFF); /* Warna gradien merah dan biru */
-            color: white; /* Warna teks tombol */
-            width: 200px; /* Lebar tombol */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
         }
         button:hover {
-            background: linear-gradient(45deg, #FF4500, #0056b3); /* Warna gradien saat hover */
-            transform: translateY(-2px); /* Efek angkat saat hover */
-        }
-        footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #fff; /* Warna teks footer */
-            animation: fadeIn 1s; /* Animasi muncul */
-        }
-        /* Media query untuk responsivitas */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2.5em; /* Ukuran font lebih kecil di perangkat kecil */
-            }
-            button {
-                width: 150px; /* Lebar tombol lebih kecil di perangkat kecil */
-            }
+            background-color: #00cc99;
         }
     </style>
 </head>
 <body>
 
-    <div class="neon"></div> <!-- Efek neon -->
-    <h1>Moonz Hub</h1>
+    <h1>Moonz Hub Gen2</h1>
 
-    <div class="info-box">
-        <h2>Fast Update</h2>
-    </div>
-    <div class="info-box">
-        <h2>100% Safe</h2>
-    </div>
+    <p class="welcome">Welcome</p>
 
-    <div class="button-container">
-        <button onclick="copyFreeScript()">Get Script Free</button>
-        <button onclick="copyPremiumScript()">Get Premium Script</button>
-        <button onclick="joinDiscord()">Join Discord</button>
+    <div class="box">
+        <p>loadstring(game:HttpGet("https://raw.githubusercontent.com/akbarhub/universalscripts/refs/heads/main/MoonzLoaderOfficial"))();</p>
+        <button onclick="copyToClipboard('loadstring(game:HttpGet(\"https://raw.githubusercontent.com/akbarhub/universalscripts/refs/heads/main/MoonzLoaderOfficial\"))();')">Copy Script</button>
     </div>
 
-    <footer>
-        &copy; 2023 Moonz Hub. All rights reserved.
-    </footer>
+    <div class="box">
+        <p>Premium Only</p>
+        <button onclick="copyToClipboard('https://discord.gg/QBNwkvpjAG')">Get Premium Script</button>
+    </div>
 
     <script>
-        function copyFreeScript() {
-            const script = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/akbarhub/universalscripts/refs/heads/main/MoonzLoaderOfficial"))();';
-            navigator.clipboard.writeText(script).then(() => {
-                alert('Free script copied to clipboard!');
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Copied to clipboard!');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
             });
-        }
-
-        function copyPremiumScript() {
-            const premiumLink = 'https://discord.gg/QBNwkvpjAG';
-            navigator.clipboard.writeText(premiumLink).then(() => {
-                alert('Premium script link copied to clipboard!');
-            });
-        }
-
-        function joinDiscord() {
-            window.open('https://discord.gg/QBNwkvpjAG', '_blank');
         }
     </script>
 
