@@ -1,1050 +1,400 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fluxus Download</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #1a1a2e 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 10s ease infinite;
-            color: #e0e0e0;
-            min-height: 100vh;
-            transition: all 0.3s ease;
-            overflow-x: hidden;
-        }
-        body.light {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 10s ease infinite;
-            color: #333;
-        }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        header {
-            text-align: center;
-            padding: 50px 20px;
-            color: white;
-            animation: fadeIn 1s ease-in;
-        }
-        h1 {
-            font-size: 3em;
-            font-weight: 600;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-        p {
-            font-size: 1.2em;
-            margin-top: 10px;
-            opacity: 0.9;
-        }
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 30px;
-            background: rgba(30, 30, 30, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            backdrop-filter: blur(15px);
-            transition: all 0.3s ease;
-            animation: slideUp 0.8s ease-out;
-        }
-        body.light .container {
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
-        }
-        .dropdown {
-            margin: 20px 0;
-            position: relative;
-        }
-        .dropbtn {
-            background: linear-gradient(45deg, #ff6b6b, #feca57, #ff9ff3);
-            color: white;
-            padding: 18px 20px;
-            font-size: 18px;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.4s ease;
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-        .dropbtn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        .dropbtn:active::before {
-            width: 300px;
-            height: 300px;
-        }
-        .dropbtn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background: rgba(50, 50, 50, 0.95);
-            min-width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            z-index: 1;
-            overflow: hidden;
-            animation: slideIn 0.4s ease-out;
-            backdrop-filter: blur(10px);
-        }
-        body.light .dropdown-content {
-            background: rgba(255, 255, 255, 0.95);
-        }
-        .dropdown-content a {
-            color: #e0e0e0;
-            padding: 15px 20px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        body.light .dropdown-content a {
-            color: #333;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        .dropdown-content a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(8px);
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
-        }
-        body.light .dropdown-content a:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-        .dropdown-content .unavailable {
-            color: #777;
-            cursor: not-allowed;
-            background: rgba(100, 100, 100, 0.5);
-        }
-        body.light .dropdown-content .unavailable {
-            color: #ccc;
-            background: rgba(200, 200, 200, 0.5);
-        }
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        .logo {
-            margin-right: 10px;
-            font-size: 1.2em;
-        }
-        .download-btn {
-            display: block;
-            margin: 30px auto 0;
-            padding: 15px 30px;
-            background: linear-gradient(45deg, #4ecdc4, #44a08d, #00d2d3);
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 600;
-            border-radius: 15px;
-            text-align: center;
-            transition: all 0.4s ease;
-            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
-            opacity: 0;
-            transform: translateY(20px);
-            position: relative;
-            overflow: hidden;
-            animation: pulse 2s infinite;
-        }
-        .download-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        .download-btn:active::before {
-            width: 300px;
-            height: 300px;
-        }
-        .download-btn.show {
-            opacity: 1;
-            transform: translateY(0);
-            animation: none;
-        }
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.6);
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4); }
-            50% { box-shadow: 0 6px 20px rgba(78, 205, 196, 0.6); }
-            100% { box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4); }
-        }
-        .lifetime-section {
-            margin-top: 40px;
-        }
-        .lifetime-section h2 {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 20px;
-            color: #e0e0e0;
-        }
-        body.light .lifetime-section h2 {
-            color: #333;
-        }
-        .cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
-        .card {
-            background: rgba(50, 50, 50, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            width: 300px;
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            animation: fadeIn 0.8s ease-out;
-        }
-        body.light .card {
-            background: rgba(255, 255, 255, 0.9);
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-        }
-        .card h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-        .card p {
-            margin: 10px 0;
-            font-size: 1em;
-        }
-        .card .price {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #ff6b6b;
-        }
-        .discord-btn {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 12px 20px;
-            background: linear-gradient(45deg, #7289da, #5865f2);
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(114, 137, 218, 0.4);
-        }
-        .discord-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(114, 137, 218, 0.6);
-        }
-        .unavailable-card {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-        .theme-switch {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            color: #e0e0e0;
-            border: none;
-            padding: 12px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-        }
-        body.light .theme-switch {
-            background: rgba(255, 255, 255, 0.8);
-            color: #333;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: white;
-            margin-top: 40px;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @media (max-width: 768px) {
-            .cards {
-                flex-direction: column;
-                align-items: center;
-            }
-            .card {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-    </style>
-</head>
-<body class="dark">
-    <button class="theme-switch" onclick="toggleTheme()">☀️</button>
-    <header>
-        <h1>Fluxus Download</h1>
-        <p>Download the latest versions of Fluxus APK from MediaFire</p>
-    </header>
-    <div class="container">
-        <p>Select your preferred version below:</p>
-        <div class="dropdown">
-            <button class="dropbtn">Choose Platform</button>
-            <div class="dropdown-content">
-                <a href="#" onclick="selectVersion('https://www.mediafire.com/file/example1')"><i class="fab fa-windows logo"></i> Windows Version V1.0.0</a>
-                <a href="#" onclick="selectVersion('https://www.mediafire.com/file/example2')"><i class="fab fa-android logo"></i> Android 32 Version V1.0.0</a>
-                <a href="#" onclick="selectVersion('https://www.mediafire.com/file/example3')"><i class="fab fa-android logo"></i> Android 64 Version V1.0.0</a>
-                <a class="unavailable"><i class="fab fa-android logo"></i> Android VNG Version V1.0.0 (Not Available)</a>
-                <a class="unavailable"><i class="fab fa-android logo"></i> Android VNG 64 Version V1.0.0 (Not Available)</a>
-                <a class="unavailable"><i class="fab fa-apple logo"></i> iOS Version V1.0.0 (Not Available)</a>
-            </div>
-        </div>
-        <a id="downloadBtn" class="download-btn" href="#" target="_blank">Download Now</a>
-        <p style="text-align: center; margin-top: 20px;">Note: Links lead to MediaFire. Ensure you have a compatible device.</p>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Executor Download</title>
+<style>
+  /* Reset & Basic */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0f172a;
+    color: #e0e7ff;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .executor-card {
+    background: #1e293b;
+    border-radius: 15px;
+    max-width: 400px;
+    width: 100%;
+    padding: 20px 25px;
+    box-shadow: 0 4px 12px rgb(100 116 139 / 0.5);
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+  }
+  .icon-container {
+    width: 48px; height: 48px;
+    background-color: #334155;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  svg {
+    fill: #93c5fd;
+    width: 28px; height: 28px;
+  }
+  .title {
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: #60a5fa;
+    line-height: 1.2;
+  }
+  .status {
+    margin-left: auto;
+    font-size: 0.9rem;
+    background-color: #2563eb;
+    color: #dbeafe;
+    padding: 5px 15px;
+    border-radius: 9999px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+  }
+  .status.not-available {
+    background-color: #475569;
+    color: #cbd5e1;
+  }
+  .description {
+    margin-bottom: 18px;
+    font-size: 1rem;
+    color: #cbd5e1;
+  }
+  ul.features {
+    list-style: none;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+  ul.features li {
+    background-color: #334155;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
 
-        <div class="lifetime-section">
-            <h2>Key Premium</h2>
-            <div class="cards">
-                <div class="card">
-                    <h3>Android Lifetime</h3>
-                    <p>Permanent access to Android version.</p>
-                    <p class="price">$15 / Permanent</p>
-                    <a href="https://discord.gg/example-android" class="discord-btn" target="_blank">Join Discord</a>
-                </div>
-                <div class="card">
-                    <h3>Windows Lifetime</h3>
-                    <p>Permanent access to Windows version.</p>
-                    <p class="price">$25 / Permanent</p>
-                    <a href="https://discord.gg/example-windows" class="discord-btn" target="_blank">Join Discord</a>
-                </div>
-                <div class="card unavailable-card">
-                    <h3>iOS Lifetime</h3>
-                    <p>Permanent access to iOS version.</p>
-                    <p class="price">$6 / Permanent</p>
-                    <span class="discord-btn" style="background: #ccc; cursor: not-allowed;">Not Available</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <footer>
-        &copy; 2023 Fluxus Download. All rights reserved.
-    </footer>
+  /* Modern dropdown & buttons container */
+  .download-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .download-label {
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #e0e7ff;
+  }
+  .download-label svg {
+    width: 22px; height: 22px;
+    fill: #60a5fa;
+  }
 
-    <script>
-        function toggleTheme() {
-            document.body.classList.toggle('light');
-            const button = document.querySelector('.theme-switch');
-            button.textContent = document.body.classList.contains('light') ? '🌙' : '☀️';
-        }
+  select.custom-select {
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: none;
+    appearance: none;
+    background-color: #1e293b;
+    color: #e0e7ff;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: inset 4px 4px 8px #0f172a, inset -4px -4px 8px #334155;
+    cursor: pointer;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23e0e7ff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 18px;
+    transition: box-shadow 0.3s ease;
+  }
+  select.custom-select:focus {
+    outline: none;
+    box-shadow: 0 0 10px #2563eb;
+  }
+  select.custom-select:disabled {
+    background-color: #475569;
+    cursor: not-allowed;
+  }
 
-        function selectVersion(link) {
-            const btn = document.getElementById('downloadBtn');
-            btn.href = link;
-            btn.classList.add('show');
-        }
-    </script>
-</body>
-</html>            text-align: center;
-            padding: 50px 20px;
-            color: white;
-            animation: fadeIn 1s ease-in;
-        }
-        h1 {
-            font-size: 3em;
-            font-weight: 600;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-        p {
-            font-size: 1.2em;
-            margin-top: 10px;
-            opacity: 0.9;
-        }
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 30px;
-            background: rgba(30, 30, 30, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            backdrop-filter: blur(15px);
-            transition: all 0.3s ease;
-            animation: slideUp 0.8s ease-out;
-        }
-        body.light .container {
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
-        }
-        .dropdown {
-            margin: 20px 0;
-            position: relative;
-        }
-        .dropbtn {
-            background: linear-gradient(45deg, #ff6b6b, #feca57, #ff9ff3);
-            color: white;
-            padding: 18px 20px;
-            font-size: 18px;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.4s ease;
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-        .dropbtn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        .dropbtn:active::before {
-            width: 300px;
-            height: 300px;
-        }
-        .dropbtn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background: rgba(50, 50, 50, 0.95);
-            min-width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            z-index: 1;
-            overflow: hidden;
-            animation: slideIn 0.4s ease-out;
-            backdrop-filter: blur(10px);
-        }
-        body.light .dropdown-content {
-            background: rgba(255, 255, 255, 0.95);
-        }
-        .dropdown-content a {
-            color: #e0e0e0;
-            padding: 15px 20px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        body.light .dropdown-content a {
-            color: #333;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        .dropdown-content a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(8px);
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
-        }
-        body.light .dropdown-content a:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-        .dropdown-content .unavailable {
-            color: #777;
-            cursor: not-allowed;
-            background: rgba(100, 100, 100, 0.5);
-        }
-        body.light .dropdown-content .unavailable {
-            color: #ccc;
-            background: rgba(200, 200, 200, 0.5);
-        }
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        .logo {
-            margin-right: 10px;
-            font-size: 1.2em;
-        }
-        .download-btn {
-            display: block;
-            margin: 30px auto 0;
-            padding: 15px 30px;
-            background: linear-gradient(45deg, #4ecdc4, #44a08d, #00d2d3);
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 600;
-            border-radius: 15px;
-            text-align: center;
-            transition: all 0.4s ease;
-            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
-            opacity: 0;
-            transform: translateY(20px);
-            position: relative;
-            overflow: hidden;
-            animation: pulse 2s infinite;
-        }
-        .download-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        .download-btn:active::before {
-            width: 300px;
-            height: 300px;
-        }
-        .download-btn.show {
-            opacity: 1;
-            transform: translateY(0);
-            animation: none;
-        }
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.6);
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4); }
-            50% { box-shadow: 0 6px 20px rgba(78, 205, 196, 0.6); }
-            100% { box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4); }
-        }
-        .lifetime-section {
-            margin-top: 40px;
-        }
-        .lifetime-section h2 {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 20px;
-            color: #e0e0e0;
-        }
-        body.light .lifetime-section h2 {
-            color: #333;
-        }
-        .cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
-        .card {
-            background: rgba(50, 50, 50, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            width: 300px;
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            animation: fadeIn 0.8s ease-out;
-        }
-        body.light .card {
-            background: rgba(255, 255, 255, 0.9);
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-        }
-        .card h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-        .card p {
-            margin: 10px 0;
-            font-size: 1em;
-        }
-        .card .price {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #ff6b6b;
-        }
-        .discord-btn {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 12px 20px;
-            background: linear-gradient(45deg, #7289da, #5865f2);
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(114, 137, 218, 0.4);
-        }
-        .discord-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(114, 137, 218, 0.6);
-        }
-        .unavailable-card {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-        .theme-switch {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            color: #e0e0e0;
-            border: none;
-            padding: 12px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-        }
-        body.light .theme-switch {
-            background: rgba(255, 255, 255, 0.8);
-            color: #333;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: white;
-            margin-top: 40px;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @media (max-width: 768px) {
-            .cards {
-                flex-direction: column;
-                align-items: center;
-            }
-            .card {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-    </style>
-</head>
-<body class="dark">
-    <button class="theme-switch" onclick="toggleTheme()">☀️</button>
-    <header>
-        <h1>Fluxus Download</h1>
-        <p>Download the latest versions of Fluxus APK from MediaFire</p>
-    </header>
-    <div class="container">
-        <p>Select your preferred version below:</p>
-        <div class="dropdown">
-            <button class="dropbtn">Choose Platform</button>
-            <div class="dropdown-content">
-                <a href="#" onclick="selectVersion('https://www.mediafire.com/file/example1')"><i class="fab fa-windows logo"></i> Windows Version V1.0.0</a>
-                <a href="#" onclick="selectVersion('https://www.mediafire.com/file/example2')"><i class="fab fa-android logo"></i> Android 32 Version V1.0.0</a>
-                <a href="#" onclick="selectVersion('https://www.mediafire.com/file/example3')"><i class="fab fa-android logo"></i> Android 64 Version V1.0.0</a>
-                <a href="#" onclick="selectVersion('https://www.mediafire.com/file/example4')"><i class="fab fa-android logo"></i> Android VNG 32 Version V1.0.0</a>
-                <a href="#" onclick="selectVersion('https://www.mediafire.com/file/example5')"><i class="fab fa-android logo"></i> Android 64 VNG Version V1.0.0</a>
-                <a class="unavailable"><i class="fab fa-apple logo"></i> iOS Version V1.0.0 (Not Available)</a>
-            </div>
-        </div>
-        <a id="downloadBtn" class="download-btn" href="#" target="_blank">Download Now</a>
-        <p style="text-align: center; margin-top: 20px;">Note: Links lead to MediaFire. Ensure you have a compatible device.</p>
+  button.btn-download, button.btn-discord {
+    padding: 14px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.25s ease;
+    user-select: none;
+    box-shadow: 6px 6px 12px #0f172a,
+                -6px -6px 12px #334155;
+  }
+  button.btn-download {
+    background-color: #2563eb;
+    color: #dbeafe;
+  }
+  button.btn-download:hover:not(:disabled) {
+    background-color: #1e40af;
+  }
+  button.btn-download:disabled {
+    background-color: #475569;
+    cursor: not-allowed;
+  }
+  button.btn-discord {
+    background-color: #5865f2;
+    color: white;
+    font-weight: 700;
+  }
+  button.btn-discord:hover {
+    background-color: #4752c4;
+  }
+  
+  /* Download icon for buttons */
+  .btn-icon svg {
+    width: 20px; height: 20px;
+    fill: currentColor;
+  }
 
-        <div class="lifetime-section">
-            <h2>Key Premium</h2>
-            <div class="cards">
-                <div class="card">
-                    <h3>Android Lifetime</h3>
-                    <p>Permanent access to Android version.</p>
-                    <p class="price">$15 / Permanent</p>
-                    <a href="https://discord.gg/example-android" class="discord-btn" target="_blank">Join Discord</a>
-                </div>
-                <div class="card">
-                    <h3>Windows Lifetime</h3>
-                    <p>Permanent access to Windows version.</p>
-                    <p class="price">$25 / Permanent</p>
-                    <a href="https://discord.gg/example-windows" class="discord-btn" target="_blank">Join Discord</a>
-                </div>
-                <div class="card unavailable-card">
-                    <h3>iOS Lifetime</h3>
-                    <p>Permanent access to iOS version.</p>
-                    <p class="price">$6 / Permanent</p>
-                    <span class="discord-btn" style="background: #ccc; cursor: not-allowed;">Not Available</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <footer>
-        &copy; 2023 Fluxus Download. All rights reserved.
-    </footer>
-
-    <script>
-        function toggleTheme() {
-            document.body.classList.toggle('light');
-            const button = document.querySelector('.theme-switch');
-            button.textContent = document.body.classList.contains('light') ? '🌙' : '☀️';
-        }
-
-        function selectVersion(link) {
-            const btn = document.getElementById('downloadBtn');
-            btn.href = link;
-            btn.classList.add('show');
-        }
-    </script>
-</body>
-</html>            color: var(--text-dark);
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .theme-switcher {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s ease;
-            z-index: 100;
-        }
-
-        .theme-switcher:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        .theme-switcher i {
-            font-size: 1.5em;
-            color: var(--text-light);
-        }
-
-        body.dark .theme-switcher i {
-            color: var(--text-dark);
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: var(--container-bg-light);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-            transition: background-color 0.5s ease;
-        }
-
-        body.dark .container {
-            background-color: var(--container-bg-dark);
-        }
-
-        h1 {
-            color: var(--text-light);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        body.dark h1 {
-            color: var(--text-dark);
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.2);
-        }
-
-        .dropdown {
-            position: relative;
-            margin: 20px 0;
-            width: 100%;
-            max-width: 300px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .dropdown-toggle {
-            padding: 15px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Enhanced visibility */
-        }
-
-        body.dark .dropdown-toggle {
-            background: linear-gradient(45deg, #4a5568, #2d3748);
-        }
-
-        .dropdown-toggle:hover {
-            background: linear-gradient(45deg, #5a67d8, #6b46c1);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-            transform: scale(1.02);
-        }
-
-        body.dark .dropdown-toggle:hover {
-            background: linear-gradient(45deg, #718096, #4a5568);
-        }
-
-        .dropdown-toggle::after {
-            content: '\f107'; /* Font Awesome chevron-down */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            transition: transform 0.3s ease;
-        }
-
-        .dropdown.open .dropdown-toggle::after {
-            transform: rotate(180deg);
-        }
-
-        .dropdown-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            background-color: var(--dropdown-bg-light);
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, opacity 0.3s ease;
-            opacity: 0;
-            z-index: 10;
-        }
-
-        body.dark .dropdown-menu {
-            background-color: var(--dropdown-bg-dark);
-        }
-
-        .dropdown.open .dropdown-menu {
-            max-height: 300px;
-            opacity: 1;
-        }
-
-        .dropdown-item {
-            padding: 12px 15px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: fadeIn 0.3s ease forwards;
-            opacity: 0;
-            color: #333;
-        }
-
-        body.dark .dropdown-item {
-            color: var(--text-dark);
-        }
-
-        .dropdown-item:nth-child(1) { animation-delay: 0.1s; }
-        .dropdown-item:nth-child(2) { animation-delay: 0.2s; }
-        .dropdown-item:nth-child(3) { animation-delay: 0.3s; }
-        .dropdown-item:nth-child(4) { animation-delay: 0.4s; }
-        .dropdown-item:nth-child(5) { animation-delay: 0.5s; }
-        .dropdown-item:nth-child(6) { animation-delay: 0.6s; }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--dropdown-item-hover-light);
-            color: #667eea;
-        }
-
-        body.dark .dropdown-item:hover {
-            background-color: var(--dropdown-item-hover-dark);
-            color: #90cdf4;
-        }
-
-        .dropdown-item.disabled {
-            color: #6c757d;
-            cursor: not-allowed;
-        }
-
-        .download-btn {
-            padding: 15px 30px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        body.dark .download-btn {
-            background: linear-gradient(45deg, #4a5568, #2d3748);
-        }
-
-        .download-btn:hover {
-            background: linear-gradient(45deg, #5a67d8, #6b46c1);
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-            animation: pulse 1.5s infinite;
-        }
-
-        body.dark .download-btn:hover {
-            background: linear-gradient(45deg, #718096, #4a5568);
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
-            50% { box-shadow: 0 8px 16px rgba(102, 126, 234, 0.5); }
-            100% { box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
-        }
-
-        .download-btn.disabled {
-            background: #6c757d;
-            cursor: not-allowed;
-            pointer-events: none;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
-
-        p {
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: var(--text-light);
-        }
-
-        body.dark p {
-            color: var(--text-dark);
-        }
-    </style>
+  /* Ads / Key Premium section */
+  .ads-section {
+    max-width: 900px;
+    width: 100%;
+    background-color: #334155;
+    border-radius: 16px;
+    padding: 20px 30px;
+    color: #dbeafe;
+    box-shadow: 0 4px 16px rgb(96 165 250 / 0.3);
+  }
+  .ads-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #93c5fd;
+    text-align: center;
+  }
+  .key-prices {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .key-card {
+    background-color: #1e293b;
+    padding: 18px 25px;
+    border-radius: 14px;
+    flex: 1 1 180px;
+    text-align: center;
+    box-shadow: inset 4px 4px 6px #0f172a, inset -4px -4px 6px #475569;
+  }
+  .key-card h3 {
+    margin-bottom: 10px;
+    color: #60a5fa;
+    font-weight: 700;
+    font-size: 1.3rem;
+  }
+  .key-price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #dbeafe;
+  }
+  .key-price.not-available {
+    color: #64748b;
+    font-style: italic;
+  }
+</style>
 </head>
 <body>
-    <button class="theme-switcher" id="theme-switcher">
-        <i class="fas fa-sun"></i>
-    </button>
-    <div class="container">
-        <h1>Fluxus Download</h1>
-        <p>Select your platform:</p>
-        <div class="dropdown" id="platform-dropdown">
-            <button class="dropdown-toggle" id="dropdown-toggle">Choose a platform... <i class="fas fa-chevron-down"></i></button>
-            <ul class="dropdown-menu" id="dropdown-menu">
-                <li class="dropdown-item" data-value="windows"><i class="fab fa-windows"></i> Windows V1.0.0</li>
-                <li class="dropdown-item" data-value="android32"><i class="fab fa-android"></i> Android Global 32 V1.0.0</li>
-                <li class="dropdown-item" data-value="android64"><i class="fab fa-android"></i> Android Global 64 V1.0.0</li>
-                <li class="dropdown-item disabled" data-value="vng32"><i class="fab fa-android"></i> Android VNG 32 (Not Available)</li>
-                <li class="dropdown-item disabled" data-value="vng32-2"><i class="fab fa-android"></i> Android VNG 64 (Not Avaible)</li>
-                <li class="dropdown-item disabled" data-value="ios"><i class="fab fa-apple"></i> iOS (Not Available)</li>
-            </ul>
-        </div>
-        <a href="#" id="download-btn" class="download-btn disabled">Download</a>
-        <p>Note: Replace the placeholder links with actual MediaFire download links. Ensure all downloads are legal and from trusted sources.</p>
+
+<!-- Android Executor -->
+<section class="executor-card" id="android-executor">
+  <div class="header">
+    <div class="icon-container" aria-label="Android icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M17.523 9.857v7.335a.5.5 0 1 1-1 0v-7.335a2.727 2.727 0 0 0-5.046 0v7.335a.5.5 0 1 1-1 0v-7.335a3.731 3.731 0 0 1 7.046 0ZM8.23 4.22 6.857 2.847 5.523 4.18l1.374 1.374 1.333-1.333Zm7.537-.04 1.334-1.333-1.373-1.373-1.334 1.333 1.373 1.373ZM8.99 6.384a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm5.99 0a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Z"/>
+      </svg>
     </div>
+    <h2 class="title">Android<br>Executor</h2>
+    <span class="status" aria-label="Status working">✔ Avaible</span>
+  </div>
+  <p class="description">Mobile executor for Android devices.</p>
+  <ul class="features">
+    <li>99% UNC Support</li>
+    <li>Fast Key System</li>
+    <li>Lag-free Gameplay</li>
+  </ul>
+  <div class="download-section">
+    <label for="android-download" class="download-label">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+      Download Options
+    </label>
+    <select id="android-download" class="custom-select" aria-label="Android download options">
+      <option value="https://www.mediafire.com/file/example/android_global64.apk/file">Android Global 64-bit</option>
+      <option value="https://www.mediafire.com/file/example/android_global32.apk/file">Android Global 32-bit</option>
+      <option value="https://www.mediafire.com/file/example/android_global32.apk/file">Android VNG 64-bit</option>
+    </select>
+    <button class="btn-download" id="android-download-btn" aria-label="Download Android APK">
+      <span class="btn-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zm7-18l-5 5h3v6h4v-6h3l-5-5z"/></svg>
+      </span>
+      Download Now
+    </button>
+    <button class="btn-discord" id="android-discord-btn" aria-label="Join Android Discord server">
+      Join Discord
+    </button>
+  </div>
+</section>
 
-    <script>
-        // Object to store download links (replace with real MediaFire links)
-        const downloadLinks = {
-            windows: "https://www.mediafire.com/file/example-windows-link",
-            android32: "https://www.mediafire.com/file/example-android32-link",
-            android64: "https://www.mediafire.com/file/example-android64-link",
-            vng32: "#",
-            "vng32-2": "#", // Assuming same as above; adjust if different
-            ios: "#" // Not available
-        };
+<!-- Windows Executor -->
+<section class="executor-card" id="windows-executor">
+  <div class="header">
+    <div class="icon-container" aria-label="Windows icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M2 3v8h9V3H2zm10 0v8h10V3H12zm-10 10v8h9v-8H2zm10 0v8h10v-8H12z"/>
+      </svg>
+    </div>
+    <h2 class="title">Windows<br>Executor</h2>
+    <span class="status not-available" aria-label="Not Available">Not Avaible</span>
+  </div>
+  <p class="description">Desktop executor for Windows devices.</p>
+  <ul class="features">
+    <li>64-bit Support</li>
+    <li>Fast Key System</li>
+    <li>Lag-free Gameplay</li>
+  </ul>
+  <div class="download-section">
+    <label for="windows-download" class="download-label">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+      Download Options
+    </label>
+    <select disabled aria-disabled="true">
+      <option>Not Available</option>
+    </select>
+    <button class="btn-download" disabled aria-disabled="true" aria-label="Download disabled">
+      <svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20" fill="currentColor"><path d="M5 20h14v-2H5v2zm7-18l-5 5h3v6h4v-6h3l-5-5z"/></svg>
+      Download Now
+    </button>
+    <button class="btn-discord" id="ios-discord-btn" aria-label="Join iOS Discord server" disabled style="cursor:not-allowed; opacity:0.5;">
+      Join Discord
+    </button>
+  </div>
+</section>
 
-        const dropdown = document.getElementById('platform-dropdown');
-        const toggle = document.getElementById('dropdown-toggle');
-        const menu = document.getElementById('dropdown-menu');
-        const downloadBtn = document.getElementById('download-btn');
-        const themeSwitcher = document.getElementById('theme-switcher');
-        const themeIcon = themeSwitcher.querySelector('i');
-        let selectedValue = '';
+<!-- iOS Executor -->
+<section class="executor-card" id="ios-executor">
+  <div class="header">
+    <div class="icon-container" aria-label="iOS icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M16.365 1.43a5.195 5.195 0 0 0-4.401 2.43c-.94 1.396-1.576 3.61-.816 5.676a4.33 4.33 0 0 0 4.912 3.036c.14-.03.282-.067.42-.11-1.47-2.76-1.784-5.784-.115-7.678Zm-6.883 6.834a7.324 7.324 0 0 0-2.973 4.682c-.35 1.564-.315 3.227.92 4.466a4.726 4.726 0 0 0 3.232 1.41c.66-.013 1.324-.249 1.918-.49a7.31 7.31 0 0 0 3.649-2.677c.07-.12.075-.273.027-.4-1.53-2.84-4.668-4.494-7.77-7.49Z"/>
+      </svg>
+    </div>
+    <h2 class="title">iOS<br>Executor</h2>
+    <span class="status not-available" aria-label="Not Available">Not Available</span>
+  </div> 
+  <p class="description">Executor for iOS devices is currently not available.</p>
+  <ul class="features">
+    <li>Coming Soon</li>
+  </ul>
+  <div class="download-section">
+    <label class="download-label" aria-disabled="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+      Download Options
+    </label>
+    <select disabled aria-disabled="true">
+      <option>Not Available</option>
+    </select>
+    <button class="btn-download" disabled aria-disabled="true" aria-label="Download disabled">
+      <svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20" fill="currentColor"><path d="M5 20h14v-2H5v2zm7-18l-5 5h3v6h4v-6h3l-5-5z"/></svg>
+      Download Now
+    </button>
+    <button class="btn-discord" id="ios-discord-btn" aria-label="Join iOS Discord server" disabled style="cursor:not-allowed; opacity:0.5;">
+      Join Discord
+    </button>
+  </div>
+</section>
 
-        // Toggle dropdown
-        toggle.addEventListener('click', function() {
-            dropdown.classList.toggle('open');
-        });
+<!-- Ads / Key Premium Section -->
+<section class="ads-section" aria-label="Premium Keys and Pricing">
+  <h2 class="ads-title">Key Premium Lifetime</h2>
+  <div class="key-prices">
+    <div class="key-card">
+      <h3>Android</h3>
+      <p class="key-price">$15 Lifetime</p>
+    </div>
+    <div class="key-card">
+      <h3>Windows</h3>
+      <p class="key-price">$25 Lifetime</p>
+    </div>
+    <div class="key-card">
+      <h3>iOS</h3>
+      <p class="key-price not-available">Not Available</p>
+    </div>
+  </div>
+</section>
 
-        // Handle item selection
-        menu.addEventListener('click', function(e) {
-            if (e.target.classList.contains('dropdown-item') && !e.target.classList.contains('disabled')) {
-                selectedValue = e.target.getAttribute('data-value');
-                toggle.innerHTML = e.target.innerHTML + ' <i class="fas fa-chevron-down"></i>';
-                dropdown.classList.remove('open');
-                if (downloadLinks[selectedValue] !== "#") {
-                    downloadBtn.href = downloadLinks[selectedValue];
-                    downloadBtn.classList.remove('disabled');
-                } else {
-                    downloadBtn.href = "#";
-                    downloadBtn.classList.add('disabled');
-                }
-            }
-        });
+<script>
+  // Utility: Open link in new tab for Discord buttons
+  const discordLinks = {
+    android: 'https://discord.gg/your-android-server', // Ganti dengan link Discord Android Anda
+    windows: 'https://discord.gg/your-windows-server', // Ganti dengan link Discord Windows Anda
+    ios: 'https://discord.gg/your-ios-server' // Ganti dengan link Discord iOS (jika diaktifkan nanti)
+  };
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!dropdown.contains(e.target)) {
-                dropdown.classList.remove('open');
-            }
-        });
+  // Download buttons & selects
+  function setupDownload(executorId) {
+    const select = document.getElementById(`${executorId}-download`);
+    const btnDownload = document.getElementById(`${executorId}-download-btn`);
 
-        // Theme switcher
-        themeSwitcher.addEventListener('click', function() {
-            document.body.classList.toggle('dark');
-            if (document.body.classList.contains('dark')) {
-                themeIcon.className = 'fas fa-moon';
-            } else {
-                themeIcon.className = 'fas fa-sun';
-            }
-        });
-    </script>
+    btnDownload.addEventListener('click', () => {
+      const url = select.value;
+      if (!url) {
+        alert('Please select a download option.');
+        return;
+      }
+      // Start download by opening mediafire link in new tab/window
+      window.open(url, '_blank');
+    });
+
+    // Discord button
+    const discordBtn = document.getElementById(`${executorId}-discord-btn`);
+    if (discordBtn) {
+      discordBtn.addEventListener('click', () => {
+        const link = discordLinks[executorId];
+        if (link) {
+          window.open(link, '_blank');
+        } else {
+          alert('Discord link not available.');
+        }
+      });
+    }
+  }
+
+  // Initialize for Android & Windows & iOS (iOS Discord btn disabled but event attached safely)
+  ['android', 'windows', 'ios'].forEach(id => {
+    setupDownload(id);
+  });
+</script>
+
 </body>
-    </html>
+</html>
