@@ -200,7 +200,7 @@ button:hover {
     <div class="header">
         <div class="title">
             <h1>MoonzObf Lua Obfuscator</h1>
-            <p>Ultra Modern • File Support • Secure</p>
+            <p>Lua Obfuscator • Save • Anti Deobfuscation</p>
         </div>
         <button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
     </div>
@@ -227,7 +227,7 @@ button:hover {
     </div>
 
     <div class="status" id="status">Status: Ready</div>
-    <div class="footer">--[[Obfuscated By MoonzObf]]--</div>
+    <div class="footer">Made By MoonzDev</div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -294,7 +294,7 @@ function download() {
     const blob = new Blob([output.value], { type: "text/plain" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "moonzw-obfuscated.lua";
+    a.download = "moonz-obfuscated.lua";
     a.click();
     toast("Download started");
 }
