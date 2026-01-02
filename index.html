@@ -5,28 +5,64 @@
 <title>Moonz • Lua Obfuscator</title>
 
 <style>
-:root {
+:root{
     --bg:#0b0f1a;--card:rgba(255,255,255,.06);--border:rgba(255,255,255,.12);
     --primary:#6a11cb;--secondary:#2575fc;--text:#eaeaea;--muted:#9aa4b2;
 }
-.light {
+.light{
     --bg:#f4f6fb;--card:#fff;--border:#e5e7eb;
     --primary:#2563eb;--secondary:#4f46e5;--text:#0f172a;--muted:#475569;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Segoe UI,sans-serif}
-body{min-height:100vh;background:radial-gradient(circle at top,#1a1f3c,var(--bg));display:flex;align-items:center;justify-content:center;color:var(--text)}
-.app{width:95%;max-width:1150px;background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:22px;padding:28px;box-shadow:0 40px 80px rgba(0,0,0,.45)}
+body{
+    min-height:100vh;
+    background:radial-gradient(circle at top,#1a1f3c,var(--bg));
+    display:flex;align-items:center;justify-content:center;
+    color:var(--text)
+}
+.app{
+    width:95%;max-width:1150px;
+    background:var(--card);
+    backdrop-filter:blur(20px);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:28px;
+    box-shadow:0 40px 80px rgba(0,0,0,.45)
+}
 .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
-.title h1{font-size:26px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.title h1{
+    font-size:26px;font-weight:800;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent
+}
 .title p{font-size:13px;color:var(--muted)}
-.toggle{padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer}
+.toggle{
+    padding:8px 14px;border-radius:10px;
+    border:1px solid var(--border);
+    background:transparent;color:var(--text);cursor:pointer
+}
 .editor{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .box label{font-size:13px;color:var(--muted);margin-bottom:6px;display:block}
-textarea{width:100%;height:300px;background:#070b14;border:1px solid var(--border);border-radius:14px;padding:14px;color:#7dffe8;font-size:14px;resize:none}
+textarea{
+    width:100%;height:300px;
+    background:#070b14;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:14px;
+    color:#7dffe8;
+    font-size:14px;
+    resize:none
+}
 .light textarea{background:#f8fafc;color:#0f172a}
 .actions{display:flex;justify-content:center;gap:12px;margin-top:22px;flex-wrap:wrap}
-button{padding:11px 20px;border-radius:14px;border:none;cursor:pointer;font-size:14px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--primary),var(--secondary))}
-button.secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
+button{
+    padding:11px 20px;border-radius:14px;border:none;
+    cursor:pointer;font-size:14px;font-weight:600;color:#fff;
+    background:linear-gradient(135deg,var(--primary),var(--secondary))
+}
+button.secondary{
+    background:transparent;border:1px solid var(--border);color:var(--text)
+}
 .status,.footer{margin-top:14px;text-align:center;font-size:13px;color:var(--muted)}
 @media(max-width:900px){.editor{grid-template-columns:1fr}}
 </style>
@@ -34,45 +70,45 @@ button.secondary{background:transparent;border:1px solid var(--border);color:var
 
 <body>
 <div class="app">
-<div class="header">
-<div class="title">
-<h1>MoonzObf Lua Obfuscator</h1>
-<p>Lua Obfuscator • Save • Anti Deobfuscation</p>
-</div>
-<button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
-</div>
+    <div class="header">
+        <div class="title">
+            <h1>MoonzObf Lua Obfuscator</h1>
+            <p>Lua Obfuscator • Executor Safe</p>
+        </div>
+        <button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
 
-<div class="editor">
-<div class="box">
-<label>Lua Source Code</label>
-<textarea id="input"></textarea>
-</div>
-<div class="box">
-<label>Obfuscated Output</label>
-<textarea id="output" readonly></textarea>
-</div>
-</div>
+    <div class="editor">
+        <div class="box">
+            <label>Lua Source Code</label>
+            <textarea id="input"></textarea>
+        </div>
+        <div class="box">
+            <label>Obfuscated Output</label>
+            <textarea id="output" readonly></textarea>
+        </div>
+    </div>
 
-<input type="file" id="fileInput" hidden>
+    <input type="file" id="fileInput" hidden>
 
-<div style="margin-top:14px;text-align:center;">
-<label><input type="checkbox" id="antiTamper" checked> Enable Anti-Tamper</label>
-</div>
+    <div style="margin-top:14px;text-align:center;">
+        <label><input type="checkbox" id="antiTamper" checked> Enable Anti-Tamper</label>
+    </div>
 
-<div style="margin-top:6px;text-align:center;">
-<label><input type="checkbox" id="strongObf"> Enable Strong Obfuscator</label>
-</div>
+    <div style="margin-top:6px;text-align:center;">
+        <label><input type="checkbox" id="strongObf"> Enable Strong Obfuscator</label>
+    </div>
 
-<div class="actions">
-<button onclick="openFile()">Open File</button>
-<button onclick="obfuscate()">Obfuscate</button>
-<button class="secondary" onclick="copyOutput()">Copy</button>
-<button class="secondary" onclick="download()">Download</button>
-<button class="secondary" onclick="clearAll()">Clear</button>
-</div>
+    <div class="actions">
+        <button onclick="openFile()">Open File</button>
+        <button onclick="obfuscate()">Obfuscate</button>
+        <button class="secondary" onclick="copyOutput()">Copy</button>
+        <button class="secondary" onclick="download()">Download</button>
+        <button class="secondary" onclick="clearAll()">Clear</button>
+    </div>
 
-<div class="status" id="status">Status: Ready</div>
-<div class="footer">Version V1.1</div>
+    <div class="status" id="status">Status: Ready</div>
+    <div class="footer">Version V1.1</div>
 </div>
 
 <script>
@@ -88,13 +124,16 @@ function obfuscate(){
     if(!src.trim()) return;
 
     const k1=r(20,200), k2=r(40,220);
-    const v1=rv(), v2=rv(), v3=rv();
+    const km=r(7,19); // per-string key multiplier
+
+    const v1=rv(), v2=rv(), v3=rv(), v4=rv();
     const anti=document.getElementById("antiTamper").checked;
     const strong=document.getElementById("strongObf").checked;
 
     let data=[];
     for(let i=0;i<src.length;i++){
-        data.push((src.charCodeAt(i)+k1)^k2);
+        let key=(k1+(i+1)*km)%256;
+        data.push((src.charCodeAt(i)+key)^k2);
     }
 
     const chk=data.reduce((a,b)=>a+b,0)%997;
@@ -103,6 +142,7 @@ function obfuscate(){
 local ${v1}={${data.join(",")}}
 local ${v2}=${k1}
 local ${v3}=${k2}
+local ${v4}=${km}
 
 local function bxor(a,b)
     local r=0
@@ -118,10 +158,23 @@ local function bxor(a,b)
     return r
 end
 
+
 local t={}
-for i=1,#${v1} do
-    local c=bxor(${v1}[i],${v3})-${v2}
-    t[i]=string.char(c)
+local i=1
+local state=1
+
+while true do
+    if state==1 then
+        if i>#${v1} then state=3 else state=2 end
+    elseif state==2 then
+        local k=(${v2}+i*${v4})%256
+        local c=bxor(${v1}[i],${v3})-k
+        t[i]=string.char(c)
+        i=i+1
+        state=1
+    elseif state==3 then
+        break
+    end
 end
 `;
 
@@ -130,7 +183,7 @@ lua+=`
 local s=0
 for i=1,#${v1} do s=s+${v1}[i] end
 if s%997~=${chk} then
-    error("Tampering Detected",0)
+    while true do end
 end
 `;
     }
@@ -143,7 +196,7 @@ do
         _c=_c+(string.byte(t[i]) or 0)
     end
     if _c%1337==0 then
-        error("Integrity Failed",0)
+        while true do end
     end
 end
 
