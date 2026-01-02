@@ -59,6 +59,10 @@ button.secondary{background:transparent;border:1px solid var(--border);color:var
 <label><input type="checkbox" id="antiTamper" checked> Enable Anti-Tamper</label>
 </div>
 
+<div style="margin-top:6px;text-align:center;">
+<label><input type="checkbox" id="strongObf"> Enable Strong Obfuscator</label>
+</div>
+
 <div class="actions">
 <button onclick="openFile()">Open File</button>
 <button onclick="obfuscate()">Obfuscate</button>
@@ -68,15 +72,13 @@ button.secondary{background:transparent;border:1px solid var(--border);color:var
 </div>
 
 <div class="status" id="status">Status: Ready</div>
-<div class="footer">Version V1.0</div>
+<div class="footer">Version V1.1</div>
 </div>
 
 <script>
-/* ===== FIX BIND ELEMENT ===== */
-const input = document.getElementById("input");
-const output = document.getElementById("output");
-const fileInput = document.getElementById("fileInput");
-/* =========================== */
+const input=document.getElementById("input");
+const output=document.getElementById("output");
+const fileInput=document.getElementById("fileInput");
 
 function r(min,max){return Math.floor(Math.random()*(max-min))+min}
 function rv(){return "_" + Math.random().toString(36).slice(2,10)}
@@ -88,6 +90,7 @@ function obfuscate(){
     const k1=r(20,200), k2=r(40,220);
     const v1=rv(), v2=rv(), v3=rv();
     const anti=document.getElementById("antiTamper").checked;
+    const strong=document.getElementById("strongObf").checked;
 
     let data=[];
     for(let i=0;i<src.length;i++){
@@ -96,7 +99,7 @@ function obfuscate(){
 
     const chk=data.reduce((a,b)=>a+b,0)%997;
 
-    let lua=`--[[ Obfuscated By https://moonzobfuscator.netlify.app/ ]]--
+    let lua=`--[[ Obfuscated By MoonzObf ]]--
 local ${v1}={${data.join(",")}}
 local ${v2}=${k1}
 local ${v3}=${k2}
@@ -129,6 +132,29 @@ for i=1,#${v1} do s=s+${v1}[i] end
 if s%997~=${chk} then
     error("Tampering Detected",0)
 end
+`;
+    }
+
+    if(strong){
+lua+=`
+do
+    local _c=0
+    for i=1,#t do
+        _c=_c+(string.byte(t[i]) or 0)
+    end
+    if _c%1337==0 then
+        error("Integrity Failed",0)
+    end
+end
+
+local function _noise()
+    local x=0
+    for i=1,math.random(4,8) do
+        x=x+math.random(999)
+    end
+    return x
+end
+_noise()
 `;
     }
 
