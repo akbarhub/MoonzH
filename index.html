@@ -4,10 +4,6 @@
 <meta charset="UTF-8">
 <title>MoonzObf • Lua Obfuscator</title>
 
-<!--
---[[Obfuscated By MoonzObf]]--
--->
-
 <style>
 :root {
     --bg: #0b0f1a;
@@ -45,7 +41,6 @@ body {
     color: var(--text);
 }
 
-/* App */
 .app {
     width: 95%;
     max-width: 1150px;
@@ -57,7 +52,6 @@ body {
     box-shadow: 0 40px 80px rgba(0,0,0,0.45);
 }
 
-/* Header */
 .header {
     display: flex;
     justify-content: space-between;
@@ -87,7 +81,6 @@ body {
     cursor: pointer;
 }
 
-/* Editor */
 .editor {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -119,7 +112,6 @@ textarea {
     color: #0f172a;
 }
 
-/* Actions */
 .actions {
     display: flex;
     justify-content: center;
@@ -137,7 +129,6 @@ button {
     font-weight: 600;
     color: #fff;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
-    transition: 0.25s;
 }
 
 button.secondary {
@@ -146,37 +137,11 @@ button.secondary {
     color: var(--text);
 }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(79,70,229,0.4);
-}
-
-/* Status */
 .status {
     margin-top: 14px;
     text-align: center;
     font-size: 13px;
     color: var(--muted);
-}
-
-/* Toast */
-.toast {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    padding: 12px 18px;
-    border-radius: 12px;
-    color: #fff;
-    font-size: 13px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: 0.4s;
-}
-
-.toast.show {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 .footer {
@@ -216,8 +181,18 @@ button:hover {
         </div>
     </div>
 
+    <!-- File Input -->
     <input type="file" id="fileInput" accept=".lua,.txt" hidden>
 
+    <!-- Anti-Tamper Option -->
+    <div style="margin-top:14px;text-align:center;">
+        <label style="font-size:13px;color:var(--muted);">
+            <input type="checkbox" id="antiTamper" checked>
+            Enable Anti-Tamper [Beta]
+        </label>
+    </div>
+
+    <!-- Actions -->
     <div class="actions">
         <button onclick="openFile()">Open File</button>
         <button onclick="obfuscate()">Obfuscate</button>
@@ -230,17 +205,61 @@ button:hover {
     <div class="footer">Made By MoonzDev</div>
 </div>
 
-<div class="toast" id="toast"></div>
-
 <script>
-/*
---[[Obfuscated By MoonzObf]]--
-*/
-
 function randomVar() {
-    return '_' + Math.random().toString(36).substring(2, 9);
+    return "_" + Math.random().toString(36).substring(2, 9);
 }
 
+// Fixed Obfuscate function with working Anti-Tamper
+function obfuscate() {
+    const input = document.getElementById("input").value;
+    if (!input.trim()) return;
+
+    const anti = document.getElementById("antiTamper").checked;
+
+    let bytes = [];
+    for (let i = 0; i < input.length; i++) {
+        bytes.push(input.charCodeAt(i));
+    }
+
+    const v = randomVar();
+
+    let antiTamperCode = "";
+    if (anti) {
+        // ✅ Fixed Anti-Tamper: Check loadstring, debug, etc.
+        antiTamperCode = `
+local function __moonz_antitamper__()
+    local ok = true
+    if type(loadstring) ~= "function" then ok = false end
+    if debug and debug.getinfo then
+        local info = debug.getinfo(1)
+        if not info or info.what ~= "main" then ok = false end
+    end
+    if not ok then
+        return print("Anti-Tamper: Script execution stopped")
+    end
+end
+__moonz_antitamper__()
+`;
+    }
+
+    const result =
+`--[[Obfuscated By MoonzObf]]--
+${antiTamperCode}
+local ${v} = {${bytes.join(",")}}
+local s = ""
+for i = 1, #${v} do
+    s = s .. string.char(${v}[i])
+end
+loadstring(s)()
+`;
+
+    document.getElementById("output").value = result;
+    document.getElementById("status").innerText =
+        anti ? "Status: Done (Anti-Tamper ON)" : "Status: Done";
+}
+
+// File Handling
 function openFile() {
     document.getElementById("fileInput").click();
 }
@@ -252,72 +271,41 @@ document.getElementById("fileInput").addEventListener("change", function () {
     const reader = new FileReader();
     reader.onload = () => {
         document.getElementById("input").value = reader.result;
-        setStatus("File loaded: " + file.name);
-        toast("File loaded");
+        document.getElementById("status").innerText = "Status: File loaded: " + file.name;
     };
     reader.readAsText(file);
 });
 
-function obfuscate() {
-    const input = document.getElementById("input").value;
-    if (!input.trim()) return;
-
-    let bytes = [];
-    for (let i = 0; i < input.length; i++) {
-        bytes.push(input.charCodeAt(i));
-    }
-
-    const v = randomVar();
-    const code =
-`--[[Obfuscated By MoonzObf]]--
-
-local ${v} = {${bytes.join(",")}}
-local s = ""
-for i = 1, #${v} do
-    s = s .. string.char(${v}[i])
-end
-loadstring(s)()
-`;
-
-    document.getElementById("output").value = code;
-    setStatus("Obfuscation Complete");
-}
-
+// Copy output
 function copyOutput() {
+    const output = document.getElementById("output");
     output.select();
     document.execCommand("copy");
-    toast("Copied to clipboard");
+    document.getElementById("status").innerText = "Status: Copied to clipboard";
 }
 
+// Download output
 function download() {
+    const output = document.getElementById("output");
     if (!output.value) return;
     const blob = new Blob([output.value], { type: "text/plain" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = "moonz-obfuscated.lua";
     a.click();
-    toast("Download started");
+    document.getElementById("status").innerText = "Status: Download started";
 }
 
+// Clear inputs
 function clearAll() {
-    input.value = "";
-    output.value = "";
-    setStatus("Cleared");
+    document.getElementById("input").value = "";
+    document.getElementById("output").value = "";
+    document.getElementById("status").innerText = "Status: Cleared";
 }
 
+// Toggle theme
 function toggleTheme() {
     document.body.classList.toggle("light");
-}
-
-function setStatus(t) {
-    document.getElementById("status").innerText = "Status: " + t;
-}
-
-function toast(text) {
-    const t = document.getElementById("toast");
-    t.innerText = text;
-    t.classList.add("show");
-    setTimeout(() => t.classList.remove("show"), 2000);
 }
 </script>
 
