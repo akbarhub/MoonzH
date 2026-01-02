@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MoonzObf • Lua Obfuscator</title>
+<title>Moonz • Lua Obfuscator</title>
 
 <style>
 :root {
@@ -68,7 +68,7 @@ button.secondary{background:transparent;border:1px solid var(--border);color:var
 </div>
 
 <div class="status" id="status">Status: Ready</div>
-<div class="footer">Made By MoonzDev</div>
+<div class="footer">Version V1.0</div>
 </div>
 
 <script>
@@ -96,7 +96,7 @@ function obfuscate(){
 
     const chk=data.reduce((a,b)=>a+b,0)%997;
 
-    let lua=`--[[ Obfuscated By MoonzObf ]]--
+    let lua=`--[[ Obfuscated By https://moonzobfuscator.netlify.app/ ]]--
 local ${v1}={${data.join(",")}}
 local ${v2}=${k1}
 local ${v3}=${k2}
